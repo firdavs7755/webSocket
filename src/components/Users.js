@@ -14,77 +14,74 @@ function Users({list,socket}) {
 
     const [currentSocketUrl, setCurrentSocketUrl] = useState(socketMsg);
     const [inputtedMessage, setInputtedMessage] = useState('');
-    const ws = new WebSocket(currentSocketUrl);
+    const ws = new WebSocket('wss://us-nyc-1.piesocket.com/v3/1?api_key=ULxjIy4aAahNnZPFhH8UJnik1DdxE91pGZid7Its&notify_self');
+    // const ws = new WebSocket(socketMsg);
     useEffect(()=>{
-        ws.onmessage=(e)=>{
-            console.log('msg keldi......',e)
-        }
+
     },[ws]);
+    // ws.onmessage=(e)=>{
+    //     console.log('msg keldi......',e)
+    // }
     ws.onopen=()=>{
         console.log('opened');
+        ws.send('salom')
+        console.log('url:',ws.url)
+    }
+    ws.onmessage=(e)=>{
+        console.log('msg incoming......',e.data)
     }
     ws.onerror=(e) =>{
-
      debugger;
         console.log(e);
     }
 
 
-    ws.onclose = (e) =>
-    {
-        debugger
+    ws.onclose = (e) => {
+        // debugger
         console.log(e);
     }
+    function getNumber(text) {
+        let br = '<br>';
+        let brIndex = text.search(br);
+        let phone = text.substring(0,brIndex)
+        return phone;
+    }
+    function getName(text) {
+        let br = '<br>';
+        let brIndex = text.search(br);
+        let name = text.substring(brIndex+4,text.length)
+        return name;
+    }
 
-    // const {
-    //     lastMessage,
-    //     readyState,
-    //     getWebSocket,
-    //     sendMessage
-    // } = useWebSocket(currentSocketUrl, {
-    //     share: true,
-    //     shouldReconnect: () => false,
-    // });
-
-    // useEffect(() => {
-    //     getChat(chatId)
-    //     if (readyState===READY_STATE_OPEN) console.log('ochiq');
-    //     console.log('lastMsg',sendMessage)
-    // }, [lastMessage]);
-    // const readyStateString = {
-    //     0: 'CONNECTING', 1: 'OPENn', 2: 'CLOSING', 3: 'CLOSED',
-    // }[readyState];
-
-
-        function getNumber(text) {
-            let br = '<br>';
-            let brIndex = text.search(br);
-            let phone = text.substring(0,brIndex)
-            return phone;
-        }
-        function getName(text) {
-            let br = '<br>';
-            let brIndex = text.search(br);
-            let name = text.substring(brIndex+4,text.length)
-            return name;
-        }
-
-        function getChat(id) {
-            setChatId(id);
-            socketService.getChatList(id)
-                .then(res=>{
-                    setChatList(res.data.results);
-                })
-        }
+    function getChat(id) {
+    setChatId(id);
+    socketService.getChatList(id)
+        .then(res=>{
+            setChatList(res.data.results);
+        })
+    }
 
         const handleChat=(id)=>{
             console.log('chatId',id)
-
             getChat(id);
+        }
+        const sendHi = ()=>{
+            ws.send("HI");
+        }
+        const sendHello = () =>{
+        let obj = {message: 'HELLO', thread: 128};
+        ws.send(obj);
+            socketService.sendmsg(obj)
+                .then(res=>{
+                    console.log('res',res)
+
+                })
         }
         return(
         <>
             {/*ReadyState: {readyStateString}*/}
+            <button onClick={()=>sendHello()}>send hello</button>
+            <button onClick={()=>sendHi()}>send hi</button>
             <div className={'d-flex justify-content-between'}>
                 <table>
                     <thead>

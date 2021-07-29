@@ -19,5 +19,8 @@ export const socketService={
     },
     getChatList:(chatId)=>{
         return axiosInstance.get(`/messages?thread=${chatId}&region=1`)
+    },
+    sendmsg:(obj)=>{
+        return axiosInstance.post('/send-message',obj)
     }
 }
