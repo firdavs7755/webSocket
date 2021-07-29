@@ -1,0 +1,6 @@
+1)https://test.gopharm.uz/api/v1/chat/messages?thread=128&region=1
+2)POST: {{domain}}/api/v1/chat/send-message
+{
+    "message": "789",
+    "thread": 128
+}
