@@ -14,8 +14,8 @@ function Users({list,socket}) {
 
     const [currentSocketUrl, setCurrentSocketUrl] = useState(socketMsg);
     const [inputtedMessage, setInputtedMessage] = useState('');
-    const ws = new WebSocket('wss://us-nyc-1.piesocket.com/v3/1?api_key=ULxjIy4aAahNnZPFhH8UJnik1DdxE91pGZid7Its&notify_self');
-    // const ws = new WebSocket(socketMsg);
+    // const ws = new WebSocket('wss://us-nyc-1.piesocket.com/v3/1?api_key=ULxjIy4aAahNnZPFhH8UJnik1DdxE91pGZid7Its&notify_self');
+    const ws = new WebSocket(socketMsg);
     useEffect(()=>{
 
     },[ws]);
@@ -80,8 +80,6 @@ function Users({list,socket}) {
         return(
         <>
             {/*ReadyState: {readyStateString}*/}
-            <button onClick={()=>sendHello()}>send hello</button>
-            <button onClick={()=>sendHi()}>send hi</button>
             <div className={'d-flex justify-content-between'}>
                 <table>
                     <thead>
